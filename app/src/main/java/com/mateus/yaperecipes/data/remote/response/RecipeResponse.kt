@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RecipeResponse(
+    @SerialName("id")
+    val id: Int,
     @SerialName("image")
     val image: String,
     @SerialName("ingredients")
@@ -21,6 +23,7 @@ data class RecipeResponse(
 
 fun RecipeResponse.toRecipe() =
     Recipe(
+        id,
         name,
         image,
         ingredients,

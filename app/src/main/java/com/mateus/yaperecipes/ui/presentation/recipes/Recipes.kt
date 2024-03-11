@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.mateus.yaperecipes.data.Resource
 import com.mateus.yaperecipes.domain.model.Recipe
 import com.mateus.yaperecipes.ui.theme.YapeRecipesTheme
@@ -30,6 +31,7 @@ import com.mateus.yaperecipes.ui.theme.YapeRecipesTheme
 @Composable
 fun Recipes(
     recipesViewModel: RecipesViewModel,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -50,7 +52,9 @@ fun Recipes(
             is Resource.Error -> {
                 Log.d("aaaaaa", recipes.toString())
                 Box(
-                    Modifier.padding(innerPadding).fillMaxSize(),
+                    Modifier
+                        .padding(innerPadding)
+                        .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     Column {
@@ -75,7 +79,10 @@ fun Recipes(
                 val recipes = recipes.data?.recipes.orEmpty()
                 Column {
                     Box(Modifier.padding(innerPadding))
-                    RecipesList(recipes, Modifier.padding(innerPadding))
+                    RecipesList(
+                        recipes,
+                        navController = navController,
+                        Modifier.padding(innerPadding))
                 }
             }
         }
@@ -85,14 +92,20 @@ fun Recipes(
 @Composable
 private fun RecipesList(
     recipes: List<Recipe>,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     LazyColumn {
         items(recipes) { recipe ->
             Column {
                 RecipeCard(
-                    title = recipe.name,
-                    imageUrl = recipe.image
+                    name = recipe.name,
+                    imageUrl = recipe.image,
+                    onCLicked = {
+                        navController.navigate(
+                            route = "recipe_details/${recipe.id}"
+                        )
+                    }
                 )
             }
         }

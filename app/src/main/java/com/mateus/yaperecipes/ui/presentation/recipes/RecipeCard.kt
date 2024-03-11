@@ -1,5 +1,6 @@
 package com.mateus.yaperecipes.ui.presentation.recipes
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,8 +17,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
 @Composable
-fun RecipeCard(title: String, imageUrl: String, modifier: Modifier = Modifier) {
-    Card(modifier = modifier.padding(8.dp)) {
+fun RecipeCard(name: String, imageUrl: String, onCLicked: () -> Unit, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier
+            .padding(8.dp)
+            .clickable { onCLicked() }
+    ) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             AsyncImage(
                 imageUrl,
@@ -26,7 +31,7 @@ fun RecipeCard(title: String, imageUrl: String, modifier: Modifier = Modifier) {
                 contentScale = ContentScale.Crop
             )
             Text(
-                text = title,
+                text = name,
                 modifier = modifier.padding(8.dp),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
