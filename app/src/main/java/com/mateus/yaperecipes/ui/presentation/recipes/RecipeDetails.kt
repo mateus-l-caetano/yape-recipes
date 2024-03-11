@@ -44,7 +44,9 @@ fun RecipeDetails(recipesViewModel: RecipesViewModel, recipeId: Int, modifier: M
                 contentScale = ContentScale.Crop
             )
 
-            LazyColumn {
+            LazyColumn(
+                modifier.padding(horizontal = 8.dp).padding(bottom = 8.dp)
+            ) {
                 val ingredients = recipe?.ingredients.orEmpty()
                 val steps = recipe?.preparationSteps.orEmpty()
 
