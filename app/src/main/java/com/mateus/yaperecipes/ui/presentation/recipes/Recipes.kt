@@ -30,7 +30,8 @@ import com.mateus.yaperecipes.ui.theme.YapeRecipesTheme
 @Composable
 fun Recipes(
     recipesViewModel: RecipesViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToDetails: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -50,7 +51,9 @@ fun Recipes(
             is Resource.Error -> {
                 Log.d("aaaaaa", recipes.toString())
                 Box(
-                    Modifier.padding(innerPadding).fillMaxSize(),
+                    Modifier
+                        .padding(innerPadding)
+                        .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     Column {
@@ -75,7 +78,13 @@ fun Recipes(
                 val recipes = recipes.data?.recipes.orEmpty()
                 Column {
                     Box(Modifier.padding(innerPadding))
-                    RecipesList(recipes, Modifier.padding(innerPadding))
+                    RecipesList(
+                        recipes,
+                        navigateToDetails = {
+                            Log.d("aaaaa", "navigate to RecipeDetails")
+                            navigateToDetails()
+                        },
+                        Modifier.padding(innerPadding))
                 }
             }
         }
@@ -85,6 +94,7 @@ fun Recipes(
 @Composable
 private fun RecipesList(
     recipes: List<Recipe>,
+    navigateToDetails: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn {
@@ -92,7 +102,10 @@ private fun RecipesList(
             Column {
                 RecipeCard(
                     title = recipe.name,
-                    imageUrl = recipe.image
+                    imageUrl = recipe.image,
+                    onCLicked = {
+                        navigateToDetails()
+                    }
                 )
             }
         }

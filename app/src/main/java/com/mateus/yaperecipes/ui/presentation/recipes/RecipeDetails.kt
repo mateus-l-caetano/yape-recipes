@@ -21,7 +21,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.mateus.yaperecipes.R
-import com.mateus.yaperecipes.ui.theme.YapeRecipesTheme
 
 @Composable
 fun RecipeDetails(modifier: Modifier = Modifier) {
@@ -99,7 +98,7 @@ fun RecipeDetails(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun RecipeDetailPreview() {
-    YapeRecipesTheme {
+    MaterialTheme {
         RecipeDetails()
     }
 }
