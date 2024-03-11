@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.mateus.yaperecipes.ui.presentation.recipes.RecipeDetails
 import com.mateus.yaperecipes.ui.presentation.recipes.Recipes
 import com.mateus.yaperecipes.ui.presentation.recipes.RecipesViewModel
@@ -18,16 +20,24 @@ fun AppNavHost(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = "Recipes"
+        startDestination = "recipes"
     ) {
-        composable("Recipes") {
+        composable("recipes") {
             Recipes(
                 recipesViewModel = hiltViewModel<RecipesViewModel>(),
-                navigateToDetails = {
-                    navController.navigate("RecipeDetails")
-                }
+                navController = navController
             )
         }
-        composable("RecipeDetails") { RecipeDetails() }
+        composable(
+            route = "recipe_details/{recipe}",
+            arguments = listOf(navArgument("recipe") { type = NavType.IntType })
+        ) { backStackEntry ->
+            backStackEntry.arguments?.getInt("recipe")?.let { recipePosition ->
+                RecipeDetails(
+                    recipesViewModel = hiltViewModel<RecipesViewModel>(),
+                    recipeId = recipePosition
+                )
+            }
+        }
     }
 }

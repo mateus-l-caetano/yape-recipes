@@ -14,16 +14,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.mateus.yaperecipes.R
+import com.mateus.yaperecipes.domain.model.Recipe
 
 @Composable
-fun RecipeDetails(modifier: Modifier = Modifier) {
+fun RecipeDetails(recipesViewModel: RecipesViewModel, recipeId: Int, modifier: Modifier = Modifier) {
+    val recipes by recipesViewModel.recipes.collectAsStateWithLifecycle()
+    val recipe : Recipe? = recipes.data?.recipes?.first { it.id == recipeId }
+
     Box(
         modifier
             .fillMaxSize().padding(0.dp)) {
@@ -31,7 +36,7 @@ fun RecipeDetails(modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             AsyncImage(
-                "https://images.unsplash.com/photo-1607301405390-d831c242f59b?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                recipe?.image.orEmpty(),
                 "food image",
                 modifier
                     .fillMaxWidth()
@@ -40,16 +45,12 @@ fun RecipeDetails(modifier: Modifier = Modifier) {
             )
 
             LazyColumn {
-                val ingredients = listOf<String>(
-                    "ingredients 1", "ingredients 2", "ingredients 3", "ingredients 4", "ingredients 5"
-                )
-                val steps = listOf<String>(
-                    "step 1", "step 2", "step 3", "step 4", "step 5"
-                )
+                val ingredients = recipe?.ingredients.orEmpty()
+                val steps = recipe?.preparationSteps.orEmpty()
 
                 item {
                     Text(
-                        "Recipe name",
+                        recipe?.name.orEmpty(),
                         style = MaterialTheme.typography.titleLarge,
                         modifier = modifier.padding(vertical = 8.dp)
                     )
@@ -92,13 +93,5 @@ fun RecipeDetails(modifier: Modifier = Modifier) {
                 "back button"
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun RecipeDetailPreview() {
-    MaterialTheme {
-        RecipeDetails()
     }
 }

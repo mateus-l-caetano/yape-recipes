@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
 @Composable
-fun RecipeCard(title: String, imageUrl: String, onCLicked: () -> Unit, modifier: Modifier = Modifier) {
+fun RecipeCard(name: String, imageUrl: String, onCLicked: () -> Unit, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .padding(8.dp)
@@ -31,7 +31,7 @@ fun RecipeCard(title: String, imageUrl: String, onCLicked: () -> Unit, modifier:
                 contentScale = ContentScale.Crop
             )
             Text(
-                text = title,
+                text = name,
                 modifier = modifier.padding(8.dp),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold

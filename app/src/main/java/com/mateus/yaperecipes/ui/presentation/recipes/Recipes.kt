@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.mateus.yaperecipes.data.Resource
 import com.mateus.yaperecipes.domain.model.Recipe
 import com.mateus.yaperecipes.ui.theme.YapeRecipesTheme
@@ -30,8 +31,8 @@ import com.mateus.yaperecipes.ui.theme.YapeRecipesTheme
 @Composable
 fun Recipes(
     recipesViewModel: RecipesViewModel,
-    modifier: Modifier = Modifier,
-    navigateToDetails: () -> Unit
+    navController: NavController,
+    modifier: Modifier = Modifier
 ) {
     Scaffold(
         topBar = {
@@ -80,10 +81,7 @@ fun Recipes(
                     Box(Modifier.padding(innerPadding))
                     RecipesList(
                         recipes,
-                        navigateToDetails = {
-                            Log.d("aaaaa", "navigate to RecipeDetails")
-                            navigateToDetails()
-                        },
+                        navController = navController,
                         Modifier.padding(innerPadding))
                 }
             }
@@ -94,17 +92,19 @@ fun Recipes(
 @Composable
 private fun RecipesList(
     recipes: List<Recipe>,
-    navigateToDetails: () -> Unit,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     LazyColumn {
         items(recipes) { recipe ->
             Column {
                 RecipeCard(
-                    title = recipe.name,
+                    name = recipe.name,
                     imageUrl = recipe.image,
                     onCLicked = {
-                        navigateToDetails()
+                        navController.navigate(
+                            route = "recipe_details/${recipe.id}"
+                        )
                     }
                 )
             }
