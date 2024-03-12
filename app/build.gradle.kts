@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     testImplementation(libs.junit)
+    testImplementation ("junit:junit:4.+")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -93,6 +94,12 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$navVersion")
 
     implementation ("com.google.maps.android:maps-compose:4.3.3")
+
+    testImplementation ("org.mockito:mockito-core:4.+")
+    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.+")
+
+    val coroutinesVersion = "1.8.0"
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 }
 
 kapt {
