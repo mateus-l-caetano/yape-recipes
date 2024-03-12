@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mateus.yaperecipes.ui.presentation.recipes.RecipeDetails
+import com.mateus.yaperecipes.ui.presentation.recipes.RecipeOrigin
 import com.mateus.yaperecipes.ui.presentation.recipes.Recipes
 import com.mateus.yaperecipes.ui.presentation.recipes.RecipesViewModel
 
@@ -35,7 +36,27 @@ fun AppNavHost(
             backStackEntry.arguments?.getInt("recipe")?.let { recipePosition ->
                 RecipeDetails(
                     recipesViewModel = hiltViewModel<RecipesViewModel>(),
-                    recipeId = recipePosition
+                    recipeId = recipePosition,
+                    navController = navController
+                )
+            }
+        }
+
+        composable(
+            route = "recipe_origin/{latitude}/{longitude}",
+        ) { backStackEntry ->
+            var latitude: Double?
+            var longitude: Double?
+
+            backStackEntry.arguments?.let {
+                latitude = it.getString("latitude")?.toDouble()
+                longitude = it.getString("longitude")?.toDouble()
+                RecipeOrigin(
+                    latitude = latitude ?: 0.0,
+                    longitude = longitude ?: 0.0,
+                    backNavigationAction = {
+                        navController.popBackStack()
+                    }
                 )
             }
         }
