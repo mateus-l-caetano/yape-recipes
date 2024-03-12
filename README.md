@@ -21,6 +21,8 @@ https://github.com/mateus-l-caetano/yape-recipes/assets/97291909/0d46735a-48c7-4
 
 ## How to run
 
+- You can download and install the .apk file [clicking here](https://drive.google.com/file/d/1TKnOFi2E9IncNRQMUuDqO8qdPQT-HIAv/view?usp=sharing)
+- If you prefer, can build and install locally following the next steps:
 - In the local.properties file, add a MAPS_API_KEY=<you_maps_key>
 > [Click here](https://developers.google.com/maps/documentation/javascript/get-api-key) for more information about how to get a Google Maps API key</br>
 > If the local.properties file doesn’t exists, create it in the root of the project
